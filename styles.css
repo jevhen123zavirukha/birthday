@@ -1,0 +1,182 @@
+/* --- GALERIE: DYNAMICKÁ MŘÍŽKA S PROMĚNNOU VELIKOSTÍ --- */
+.gallery-grid {
+    /* Používáme moderní CSS Grid */
+    display: grid;
+    /* Vytvoříme 4 sloupce s flexibilní velikostí */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.gallery-grid img {
+    width: 100%;
+    /* Výška je flexibilní, aby se přizpůsobila různým rozpětím řádků */
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px; /* Kulatější rohy */
+    box-shadow: 0 8px 15px rgba(255, 102, 163, 0.4); /* Akcentní růžový stín */
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Plynulejší a zajímavější animace */
+    border: 4px solid white; /* Bílý okraj pro zvýraznění */
+}
+
+/* Náročnější a hravější hover efekt */
+.gallery-grid img:hover {
+    /* Zvětšení a mírné otočení */
+    transform: scale(1.08) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(255, 127, 80, 0.8);
+    filter: saturate(1.2); /* Sytější barvy při najetí */
+}
+
+/* --- ASYMETRICKÉ ROZLOŽENÍ (KLÍČOVÁ ZMĚNA PRO DYNAMIKU) --- */
+/* Zvětšíme vybrané obrázky na 2 sloupce/řádky, aby rozbily mřížku */
+
+/* První fotka - zabere 2 sloupce */
+.gallery-grid img:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+/* Pátá fotka - zabere 2 sloupce a 2 řádky (velký box) */
+.gallery-grid img:nth-child(5) {
+    grid-column: span 2;
+    grid-row: span 2;
+    /* Dáme jí mírné otočení, aby to vypadalo jako 'hozené' na stránku */
+    transform: rotate(-3deg);
+}
+
+/* Sedmá fotka - zabere 2 řádky */
+.gallery-grid img:nth-child(7) {
+    grid-row: span 2;
+}
+
+/* --- IMPORTOVÁNÍ FONTU --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap');
+
+/* --- ZÁKLADNÍ STYLY --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    /* Luxusní gradient pozadí: zlatá a fialová */
+    background: linear-gradient(135deg, #f0f0f5 0%, #ffe8d6 100%);
+    color: #444;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    /* Gradient textu: Zlatá barva s třpytem */
+    background: linear-gradient(45deg, #ffc72c, #ff7f50);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+main {
+    padding: 30px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+/* --- RESPONSIVITA PRO MOBILNÍ ZAŘÍZENÍ --- */
+@media (max-width: 768px) {
+    /* Tablet: 2 sloupce, ale pravidelné */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .gallery-grid img {
+        height: 180px;
+    }
+
+    /* ZRUŠENÍ ASYMETRIE pro mobilní zařízení */
+    .gallery-grid img:nth-child(1),
+    .gallery-grid img:nth-child(5),
+    .gallery-grid img:nth-child(7) {
+        grid-column: span 1 !important; /* Všechny zaberou jen 1 sloupec */
+        grid-row: span 1 !important; /* Všechny zaberou jen 1 řádek */
+        transform: none !important; /* Odstraníme otočení */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Mobil: 1 sloupec */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    .gallery-grid img {
+        height: 250px;
+    }
+}
+/* --- HEADER / NAROZENINOVÉ PŘÁNÍ (Důraz na Třpyt) --- */
+.birthday-header {
+    background: #ffffff; /* Čisté bílé pozadí */
+    padding: 60px 20px 40px;
+    text-align: center;
+    border-bottom-left-radius: 50% 20%;
+    border-bottom-right-radius: 50% 20%;
+    box-shadow: 0 10px 20px rgba(255, 127, 80, 0.3); /* Měkký stín s akcentní barvou */
+    overflow: hidden; /* Důležité pro konfety */
+    position: relative;
+}
+
+/* Náročnější animace H1 */
+.bounce-text {
+    font-size: 3.5em; /* Větší na PC */
+    animation: sparkle 1s infinite alternate, pulse 3s infinite;
+}
+
+/* Animace Třpytu pro H1 */
+@keyframes sparkle {
+    from {text-shadow: 0 0 5px #ffc72c, 0 0 10px #ff7f50;}
+    to {text-shadow: 0 0 10px #ffc72c, 0 0 20px #ff7f50;}
+}
+/* Animace Pulsu pro H1 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* --- Konfety (Pokročilá CSS dekorace) --- */
+.birthday-header::before, .birthday-header::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    box-shadow:
+        10px 30px #ff7f50,
+        -20px 50px #ffc72c,
+        50px 80px #ff66a3,
+        -60px 100px #40e0d0; /* Různé barvy konfet */
+    opacity: 0.8;
+    animation: confetti-fall 15s infinite;
+}
+.birthday-header::after {
+    left: 80%;
+    animation-delay: 5s;
+    box-shadow: -10px 40px #ff66a3, 20px 60px #ffc72c, -50px 90px #40e0d0;
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(700px) rotate(720deg); opacity: 0.5; }
+}
+
+/* --- Sekce (Karty s Hloubkou) --- */
+section {
+    background-color: rgba(255, 255, 255, 0.9); /* Lehce průhledné pro hloubku */
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 18px;
+    /* Větší, měkčí stín pro efekt hloubky */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out;
+}
+
+section:hover {
+    transform: translateY(-5px); /* Jemný 3D efekt při najetí */
+    box-shadow: 0 20px 40px rgba(255, 127, 80, 0.2);
+}
